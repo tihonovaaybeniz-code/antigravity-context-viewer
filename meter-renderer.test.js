@@ -10007,6 +10007,7 @@ test('v0.9.0 三项 UI 精修: 独立顶层挂载至 body 末尾 + 快捷隐藏�
     assert.match(radialHost.style.cssText, /position:\s*fixed/i);
     assert.match(radialHost.style.cssText, /inset:\s*0/i);
     assert.match(radialHost.style.cssText, /pointer-events:\s*none/i);
+    assert.doesNotMatch(radialHost.style.cssText, /-webkit-app-region:\s*no-drag/i, '全屏顶层容器不得设置 no-drag 以免破坏窗口拖动');
     assert.equal(radialHost.style.zIndex, '2147483000');
 
     const radialShadow = radialHost.shadowRoot;
@@ -10017,6 +10018,10 @@ test('v0.9.0 三项 UI 精修: 独立顶层挂载至 body 末尾 + 快捷隐藏�
     assert.equal(mainShadow.getElementById('ctx-radial-orb'), null, '主 shadow 内不应保留悬浮球重复节点');
     assert.equal(mainShadow.getElementById('ctx-radial-layer'), null, '主 shadow 内不应保留径向层重复节点');
     const radialStyle = radialShadow.querySelector('style')?.textContent || '';
+    const hostRuleMatch = radialStyle.match(/:host\s*\{([^}]*)\}/);
+    assert.ok(hostRuleMatch, 'radialShadow 必须包含 :host 样式');
+    assert.doesNotMatch(hostRuleMatch[1], /-webkit-app-region:\s*no-drag/i, '全屏 :host 不得设置 no-drag 以免挖空标题栏拖动热区');
+    assert.match(radialStyle, /#ctx-radial-orb:not\(\[hidden\]\)[\s\S]*?-webkit-app-region:\s*no-drag\s*!important/, '仅可见悬浮球与交互按钮设置 no-drag');
     assert.match(radialStyle, /:host\s*\{[\s\S]*z-index:\s*2147483000\s*!important[\s\S]*pointer-events:\s*none\s*!important/);
     assert.match(radialStyle, /\.ctx-radial-orb\s*\{[\s\S]*pointer-events:\s*auto/);
     assert.match(radialStyle, /:host\(\[data-marketplace-active="true"\]\)\s+#ctx-radial-orb/);

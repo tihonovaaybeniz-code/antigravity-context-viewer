@@ -466,10 +466,16 @@
         overflow: visible !important;
         pointer-events: none !important;
         z-index: ${RADIAL_TOP_Z_INDEX} !important;
-        -webkit-app-region: no-drag !important;
         font: 12px/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
         --ag-ring-warn: #f59e0b;
         --ag-ring-danger: #ef4444;
+      }
+      #ctx-radial-orb:not([hidden]),
+      #ctx-radial-orb:not([hidden]) *,
+      #ctx-radial-layer:not([hidden]) .ctx-radial-center-close,
+      #ctx-radial-layer:not([hidden]) button,
+      #ctx-radial-layer:not([hidden]) [role="button"] {
+        -webkit-app-region: no-drag !important;
       }
       :host([data-marketplace-active="true"]) #ctx-radial-orb,
       :host([data-marketplace-active="true"]) #ctx-radial-layer {
@@ -525,7 +531,7 @@
       radialHost.id = RADIAL_TOP_HOST_ID;
       radialHost.setAttribute?.('data-ag-radial-top-layer', 'true');
       if (radialHost.style) {
-        radialHost.style.cssText = `position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;overflow:visible!important;pointer-events:none!important;z-index:${RADIAL_TOP_Z_INDEX}!important;-webkit-app-region:no-drag!important;`;
+        radialHost.style.cssText = `position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;overflow:visible!important;pointer-events:none!important;z-index:${RADIAL_TOP_Z_INDEX}!important;`;
       }
       const styleEl = document.createElement('style');
       if (styleEl) {
